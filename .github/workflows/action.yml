@@ -2,7 +2,7 @@ name: Test 7 Repo
 
 on:
   pull_request:
-    branches: [ master, '**' ]
+    branches: [ master, fixbugL6Painter ]
     paths-ignore:
       - '.github/workflows/**'
       - '**/mainTest.cpp'
