@@ -111,12 +111,20 @@ char findMostFrequentChar(const map<char, int>& occurrences, const set<char>& se
 char findBestChar(const vector<string>& candidateWords, const set<char>& selectedChars)
 {
     char answer;
+    map<char, int> occurrences = countOccurrences(candidateWords);
     int l = candidateWords.size();
-    for (int i = 0; i < l; i++){
+    for(int i = 0; i < l; i++){
         int l2 = candidateWords[i].length();
         for (int j = 0; j < l2; j++){
             if (selectedChars.find(candidateWords[i][j]) != selectedChars.end()){
-                answer = candidateWords[i][j];
+                occurrences[candidateWords[i][j]] ++;
+            }
+        }
+    }
+    for (int i = 0; i < 26; i++){
+        if (occurrences.find('a' + i) != occurrences.end()){
+            if (selectedChars.find('a' + i) != selectedChars.end()){
+                answer = findMostFrequentChar(occurrences, selectedChars);
                 break;
             }
         }
