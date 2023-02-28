@@ -87,14 +87,12 @@ char findMostFrequentChar(const map<char, int>& occurrences, const set<char>& se
 {
     char answer;
     int max = 0;
-    for (int i = 0; i < 26; i++){
-        if (occurrences.find('a' + i) != occurrences.end()){
-            if (selectedChars.find('a' + i) != selectedChars.end()){
-                if (occurrences.at('a' + i) > max){
-                    max = occurrences.at('a' + i);
-                    answer = 'a' + i;
-                }
-            }
+    for (auto it = occurrences.begin(); it != occurrences.end(); it++){
+        char c = it->first;
+        int cnt = it->second;
+        if (selectedChars.count(c) == 0 && cnt > max){
+            max = cnt;
+            answer = c;
         }
     }
     return answer;
@@ -112,23 +110,7 @@ char findBestChar(const vector<string>& candidateWords, const set<char>& selecte
 {
     char answer;
     map<char, int> occurrences = countOccurrences(candidateWords);
-    int l = candidateWords.size();
-    for(int i = 0; i < l; i++){
-        int l2 = candidateWords[i].length();
-        for (int j = 0; j < l2; j++){
-            if (selectedChars.find(candidateWords[i][j]) != selectedChars.end()){
-                occurrences[candidateWords[i][j]] ++;
-            }
-        }
-    }
-    for (int i = 0; i < 26; i++){
-        if (occurrences.find('a' + i) != occurrences.end()){
-            if (selectedChars.find('a' + i) != selectedChars.end()){
-                answer = findMostFrequentChar(occurrences, selectedChars);
-                break;
-            }
-        }
-    }
+    answer = findMostFrequentChar(occurrences, selectedChars);
     return answer;
 }
 
@@ -175,15 +157,11 @@ bool isCorrectChar(char ch, const string& mask)
 ***/
 bool isWholeWord(const string& mask)
 {
-    bool answer;
-    int l = mask.size();
-    for (int i = 0; i < l; i++){
-        if (mask[i] == '-'){
+    bool answer = true;
+    for (auto c : mask){
+        if (c < 'a' || c > 'z'){
             answer = false;
             break;
-        }
-        else{
-            answer = true;
         }
     }
     return answer;
@@ -206,31 +184,14 @@ bool wordConformToMask(const string& word, const string& mask, char ch)
     bool answer;
     int l = mask.length();
     if (word.length() != l){
-        answer = false;
+        return false;
     }
-    else{
-        for (int i = 0; i < l; i++){
-            if (mask[i] == '-'){
-                if (word[i] == ch){
-                    answer = true;
-                }
-                else{
-                    answer = false;
-                    break;
-                }
-            }
-            else{
-                if (word[i] == mask[i]){
-                    answer = true;
-                }
-                else{
-                    answer = false;
-                    break;
-                }
-            }
+    for (int i = 0; i < l; i++){
+        if (mask[i] != '-' && mask[i] != word[i]){
+            return false;
         }
     }
-    return answer;
+    return true;
 }
 
 /***
