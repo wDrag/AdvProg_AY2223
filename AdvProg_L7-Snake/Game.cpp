@@ -51,7 +51,7 @@ Game::~Game()
 ***/
 
 void Game::snakeMoveTo(Position pos) {
-	if (getCellType(pos) == CELL_SNAKE || CELL_OFF_BOARD){
+	if (getCellType(pos) == (CELL_SNAKE || CELL_OFF_BOARD)){
 		status = GAME_OVER;
 		return;
 	}
@@ -166,12 +166,12 @@ void Game::nextStep()
 
 void Game::addCherry()
 {
+	srand(time(NULL));
     do {
 		// init a random position inside the play screen (width, height)
 		// Suggestion: use rand() function
-		srand(time(NULL));
-		int randX = rand() % width;
-		int randY = rand() % height;
+		int randX = rand() % height;
+		int randY = rand() % width;
         Position randomPos = Position(randX, randY); // YOUR CODE HERE
 		// check if the randomPos is EMPTY 
         if (getCellType(randomPos) == CELL_EMPTY) {
