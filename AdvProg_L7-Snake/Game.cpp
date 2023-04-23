@@ -52,7 +52,7 @@ Game::~Game()
 
 void Game::snakeMoveTo(Position pos) {
 	if (getCellType(pos) == CELL_SNAKE || CELL_OFF_BOARD){
-		setGameStatus(GAME_OVER);
+		status = GAME_OVER;
 		return;
 	}
 	if (getCellType(pos) == CELL_CHERRY){
